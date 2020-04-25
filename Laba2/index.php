@@ -5,10 +5,10 @@ require('connect.php');
 // путь до нашего .xml файла
 $path = 'unemploymentRate.xml';
 try {
-    // считываем весь файл в переменную xml_string и проверяем на соответствие формат .xml
+    // считываем весь файл в переменную xmlString и проверяем на соответствие формат .xml
     $temp = file_get_contents($path);
     if (file_exists($path)) {
-        $xml_string = simplexml_load_file($path);
+        $xmlString = simplexml_load_file($path);
         if (!@simplexml_load_string($temp))
             throw new Exception('Файл не соответствует стандарту xml.');
     } else {
@@ -16,7 +16,7 @@ try {
     }
     
     // проходим по каждой "unemployment"
-    foreach ($xml_string as $xml) {
+    foreach ($xmlString as $xml) {
         global $pdo;
         // формируем запрос
         $sql = 'INSERT INTO unemployments(country, period, values, unit, previous_values) 
