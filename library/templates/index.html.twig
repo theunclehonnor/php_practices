@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {#    footer#}
+    {{ include('default/header.html.twig') }}
+    {#    block-main#}
+    <div class="container">
+        <div class="row mt-5 mb-3 justify-content-center">
+            <h1 class="display-4 text-light">
+                <span class="logo_red">Б</span>иблиотека
+            </h1>
+        </div>
+        <div class="container">
+            <div class="d-flex justify-content-start flex-wrap">
+                {% for book in books %}
+                    <div class="card ml-3 mt-3" style="width: 18rem;">
+                        <img src="{{ asset('assets/main/uploads/img/' ~ book.image) }}" width="286" height="286" class="card-img-top" alt="Картинка продукта">
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{ book.title }}</h5>
+                            <h5 class="card-title text-truncate">{{ book.author }}</h5>
+                            <h6 class="card-title text-truncate text-muted">Добавил: {{ book.user }}</h6>
+                            <p class="card-text text-muted">{{ book.updateAt ? book.updateAt|date('Y-m-d H:i:s') : '' }}</p>
+                            <a href="{{ path('book_read', {'id': book.id}) }}" class="btn btn-primary col-6">Читать</a>
+                            {% if is_granted('ROLE_ADMIN')  %}
+                                <div class="d-flex justify-content-between mt-2">
+                                    <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-danger">Редактировать</a>
+                                    <a href="{{ path('book_delete', {'id': book.id}) }}" class="btn btn-danger">Удалить</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <h2 class="text-center">Нету продуктов</h2>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ include('default/scripts.html.twig') }}
+    <script src="{{ asset('assets/main/js/main.js') }}"></script>
+{% endblock %}
